@@ -1,0 +1,52 @@
+<div class="page home-page">
+  <mat-toolbar class="app-header">
+    <div class="header-inner">
+      <a class="brand" (click)="router.navigate(['/home'])">
+        <mat-icon>storefront</mat-icon>
+        <span>ShopHub</span>
+      </a>
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <input matInput type="text" [formControl]="searchQueryControl" placeholder="Search products...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+     <div class="header-actions">
+        <button mat-icon-button class="icon-btn" (click)="goToOrders()" matTooltip="My Orders">
+          <mat-icon>receipt_long</mat-icon>
+        </button>
+        <button mat-icon-button class="icon-btn cart-wrap" (click)="goToCart()" matTooltip="Cart">
+          <mat-icon>shopping_cart</mat-icon>
+          <span class="cart-badge" [class.hidden]="cartItemCount === 0">{{ cartItemCount }}</span>
+        </button>
+        <div class="user-chip" *ngIf="currentUser | async as user">{{ user.name }}</div>
+        <button mat-icon-button class="icon-btn" (click)="onLogout()" matTooltip="Logout">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+
+  <main class="page-content">
+    <div class="loading-container" *ngIf="isLoading">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading products...</p>
+    </div>
+
+    <div class="products-section" *ngIf="!isLoading">
+      <div class="empty-state no-products" *ngIf="filteredProducts.length === 0">
+        <mat-icon class="empty-icon">search_off</mat-icon>
+        <h2>No products found</h2>
+        <p>Try different keywords or browse all categories</p>
+      </div>
+      <div class="products-grid" *ngIf="filteredProducts.length > 0">
+        <app-product-card
+          *ngFor="let product of filteredProducts"
+          [product]="product"
+          (addToCart)="onAddToCart(product)"
+          (buyNow)="onBuyNow(product)">
+        </app-product-card>
+      </div>
+    </div>
+  </main>
+</div>

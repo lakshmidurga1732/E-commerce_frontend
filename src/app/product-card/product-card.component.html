@@ -1,0 +1,43 @@
+<mat-card class="product-card" appearance="outlined">
+  <mat-card-header>
+    <img mat-card-image 
+         [src]="product.image" 
+         [alt]="product.title" 
+         class="product-image loading"
+         (load)="onImageLoad($event)"
+         (error)="onImageError($event)">
+  </mat-card-header>
+  
+  <mat-card-content>
+    <mat-card-title class="product-title">{{ product.title }}</mat-card-title>
+    <mat-card-subtitle class="product-price">${{ product.price.toFixed(2) }}</mat-card-subtitle>
+    
+    <div class="rating">
+      <mat-icon 
+        *ngFor="let star of getStars(product.rating.rate)" 
+        [class.star-filled]="star === 'star'"
+        [class.star-half]="star === 'star_half'"
+        class="rating-star">
+        {{ star }}
+      </mat-icon>
+      <span class="rating-text">({{ product.rating.count }})</span>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button 
+            color="primary" 
+            class="add-to-cart-btn"
+            (click)="onAddToCart()">
+      <mat-icon>add_shopping_cart</mat-icon>
+      Add to Cart
+    </button>
+    <button mat-raised-button 
+            color="success" 
+            class="buy-now-btn"
+            (click)="onBuyNow()">
+      <mat-icon>payment</mat-icon>
+      Buy Now
+    </button>
+  </mat-card-actions>
+</mat-card>

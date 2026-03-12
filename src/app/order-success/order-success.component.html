@@ -1,0 +1,59 @@
+<div class="page order-success-page">
+  <mat-toolbar class="app-header">
+    <div class="header-inner">
+      <a class="brand" (click)="router.navigate(['/home'])">
+        <mat-icon>storefront</mat-icon>
+        <span>ShopHub</span>
+      </a>
+      <span class="header-title">Order confirmed</span>
+      <div class="header-actions">
+        <button mat-icon-button class="icon-btn" (click)="onLogout()" matTooltip="Logout">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+
+  <main class="page-content">
+    <div class="success-block">
+      <mat-card class="success-card">
+        <mat-card-content>
+          <div class="success-icon-wrap">
+            <mat-icon class="success-icon">check_circle</mat-icon>
+          </div>
+          <h1 class="success-title">Order placed successfully</h1>
+          <p class="success-message">
+            Thank you for your purchase. Your order has been confirmed and will be processed shortly.
+          </p>
+          <div class="order-id-block" *ngIf="orderId">
+            <strong>Order ID:</strong> #{{ orderId }}
+          </div>
+          <div class="success-info">
+            <div class="info-row">
+              <mat-icon>email</mat-icon>
+              <span>You will receive an order confirmation email shortly</span>
+            </div>
+            <div class="info-row">
+              <mat-icon>local_shipping</mat-icon>
+              <span>Your order will be shipped within 2–3 business days</span>
+            </div>
+            <div class="info-row">
+              <mat-icon>support_agent</mat-icon>
+              <span>For any questions, contact our customer support</span>
+            </div>
+          </div>
+          <div class="action-row">
+            <button mat-raised-button class="btn-primary" (click)="continueShopping()">
+              <mat-icon>shopping_cart</mat-icon>
+              Continue shopping
+            </button>
+            <button mat-stroked-button class="btn-secondary" (click)="viewOrders()">
+              <mat-icon>receipt_long</mat-icon>
+              View orders
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </main>
+</div>

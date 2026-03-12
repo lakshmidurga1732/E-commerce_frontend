@@ -1,0 +1,156 @@
+<div class="page payment-page">
+  <mat-toolbar class="app-header">
+    <div class="header-inner">
+      <button class="back-btn" (click)="onGoBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back to cart</span>
+      </button>
+      <a class="brand" (click)="onGoBack()">
+        <mat-icon>storefront</mat-icon>
+        <span>ShopHub</span>
+      </a>
+      <span class="header-title">Payment</span>
+      <div class="header-actions">
+        <button mat-icon-button class="icon-btn" (click)="onLogout()" matTooltip="Logout">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+
+  <main class="page-content">
+    <div class="payment-content">
+      <!-- Order Summary -->
+      <mat-card class="order-summary-card">
+        <mat-card-header>
+          <mat-card-title>Order Summary</mat-card-title>
+          <span class="payment-mode-badge" *ngIf="isSingleItemPayment">Single item</span>
+          <span class="payment-mode-badge full-cart" *ngIf="!isSingleItemPayment">Full cart</span>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="payment-loading" *ngIf="!cartLoaded">
+            <mat-spinner diameter="36"></mat-spinner>
+            <p>Loading your order...</p>
+          </div>
+          <div class="order-items" *ngIf="cartLoaded && displayItems.length > 0">
+            <div class="item" *ngFor="let item of displayItems">
+              <div class="item-info">
+                <span class="item-title">{{ item.title }}</span>
+                <span class="item-quantity">Qty: {{ item.quantity }}</span>
+              </div>
+              <span class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</span>
+            </div>
+          </div>
+          <div class="summary-row" *ngIf="cartLoaded">
+            <span>Subtotal:</span>
+            <span>${{ orderTotal.toFixed(2) }}</span>
+          </div>
+          <div class="summary-row" *ngIf="cartLoaded">
+            <span>Shipping:</span>
+            <span>FREE</span>
+          </div>
+          <div class="summary-row total" *ngIf="cartLoaded">
+            <span>Total:</span>
+            <span>${{ orderTotal.toFixed(2) }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Shipping Address -->
+      <mat-card class="address-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>location_on</mat-icon>
+            Shipping Address
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="addressForm" class="address-form">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Full Name</mat-label>
+              <input matInput type="text" formControlName="name" placeholder="Enter your full name">
+              <mat-icon matSuffix>person</mat-icon>
+              <mat-error *ngIf="addressForm.get('name')?.hasError('required')">Name is required</mat-error>
+              <mat-error *ngIf="addressForm.get('name')?.hasError('minlength')">At least 2 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Address</mat-label>
+              <input matInput type="text" formControlName="address" placeholder="Street address">
+              <mat-icon matSuffix>home</mat-icon>
+              <mat-error *ngIf="addressForm.get('address')?.hasError('required')">Address is required</mat-error>
+              <mat-error *ngIf="addressForm.get('address')?.hasError('minlength')">At least 5 characters</mat-error>
+            </mat-form-field>
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput type="text" formControlName="city" placeholder="City">
+                <mat-icon matSuffix>location_city</mat-icon>
+                <mat-error *ngIf="addressForm.get('city')?.hasError('required')">City is required</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Zip Code</mat-label>
+                <input matInput type="text" formControlName="zip_code" placeholder="5-6 digits" maxlength="6">
+                <mat-icon matSuffix>markunread_mailbox</mat-icon>
+                <mat-error *ngIf="addressForm.get('zip_code')?.hasError('required')">Zip code is required</mat-error>
+                <mat-error *ngIf="addressForm.get('zip_code')?.hasError('pattern')">Valid 5-6 digit zip</mat-error>
+              </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Phone Number</mat-label>
+              <input matInput type="tel" formControlName="phone" placeholder="10-digit number" maxlength="10">
+              <mat-icon matSuffix>phone</mat-icon>
+              <mat-error *ngIf="addressForm.get('phone')?.hasError('required')">Phone is required</mat-error>
+              <mat-error *ngIf="addressForm.get('phone')?.hasError('pattern')">Valid 10-digit number</mat-error>
+            </mat-form-field>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Payment Method -->
+      <mat-card class="payment-method-card">
+        <mat-card-header>
+          <mat-card-title>Select Payment Method</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="paymentForm" class="payment-form">
+            <mat-radio-group formControlName="paymentMethod" (change)="onPaymentMethodChange($event.value)">
+              <mat-radio-button value="cod" class="payment-option">
+                <div class="payment-option-content">
+                  <div class="payment-option-header">
+                    <mat-icon class="payment-icon">payments</mat-icon>
+                    <div class="payment-option-info">
+                      <h3>Cash on Delivery</h3>
+                      <p>Pay when you receive your order</p>
+                    </div>
+                  </div>
+                  <div class="payment-option-details">
+                    <ul>
+                      <li>No additional charges</li>
+                      <li>Pay in cash or card on delivery</li>
+                      <li>Secure and trusted</li>
+                    </ul>
+                  </div>
+                </div>
+              </mat-radio-button>
+            </mat-radio-group>
+          </form>
+          
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button
+                  color="primary"
+                  class="place-order-btn"
+                  [disabled]="!canPlaceOrder()"
+                  (click)="onPlaceOrder()">
+            <mat-icon *ngIf="!isPlacingOrder">lock</mat-icon>
+            <mat-spinner *ngIf="isPlacingOrder" diameter="20"></mat-spinner>
+            {{ isPlacingOrder ? 'Placing Order...' : 'Place Order' }}
+          </button>
+          <button mat-stroked-button class="btn-secondary" (click)="onGoBack()">
+            Back to cart
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </main>
+</div>

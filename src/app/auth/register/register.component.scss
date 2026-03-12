@@ -1,0 +1,107 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(160deg, var(--sh-bg) 0%, var(--sh-surface) 50%, var(--sh-primary-light) 100%);
+}
+
+.auth-card-wrap {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-card {
+  border-radius: var(--sh-radius) !important;
+  box-shadow: var(--sh-shadow-lg) !important;
+  overflow: hidden;
+  padding: 32px 28px !important;
+
+  mat-card-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .auth-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--sh-primary);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+
+    mat-icon {
+      font-size: 36px;
+      height: 36px;
+      width: 36px;
+    }
+  }
+
+  mat-card-title {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: var(--sh-text) !important;
+    margin-bottom: 4px !important;
+  }
+
+  mat-card-subtitle {
+    font-size: 0.95rem !important;
+    color: var(--sh-text-secondary) !important;
+  }
+
+  .auth-form {
+    .full-width {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px !important;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--sh-radius-sm);
+      background: linear-gradient(135deg, var(--sh-primary) 0%, var(--sh-primary-dark) 100%) !important;
+      color: white !important;
+      text-transform: none;
+
+      &:hover:not(:disabled) {
+        opacity: 0.95;
+      }
+
+      &:disabled {
+        background: var(--sh-border) !important;
+        color: var(--sh-text-secondary) !important;
+      }
+    }
+  }
+
+  .auth-footer {
+    display: block !important;
+    text-align: center;
+    padding-top: 24px !important;
+    margin-top: 8px !important;
+    border-top: 1px solid var(--sh-border);
+  }
+
+  .auth-switch {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--sh-text-secondary);
+
+    a {
+      color: var(--sh-primary);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
