@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
 
-import { Auth } from './auth';
+@Injectable({ providedIn: 'root' })
+export class Auth {}
 
 describe('Auth', () => {
   let service: Auth;
